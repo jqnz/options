@@ -47,9 +47,9 @@ class IBApp(EClient, EWrapper):
             snap[tickType] = price
 
 
-    def tickOptionComputation(self, reqId, tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice):
+    def tickOptionComputation(self, reqId, tickType, tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice):
         quote = self.option_quotes.setdefault(reqId, {})
-
+       
         quote.update({
             'impliedVol': impliedVol if impliedVol and impliedVol > 0 else None,
             'delta': delta, 'gamma': gamma, 'vega': vega, 'theta': theta,
@@ -89,7 +89,6 @@ class IBApp(EClient, EWrapper):
     def securityDefinitionOptionalParameterEnd(self, reqId):
         ev = self._opt_param_events.get(reqId)
         if ev: ev.set()
-
 
     def start(self, host = '127.0.0.1', port = 7496, clientId = 1):
         self.connect(host, port, clientId)
